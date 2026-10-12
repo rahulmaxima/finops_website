@@ -5,6 +5,8 @@ const files = [
   'robots.txt',
   'sitemap.xml',
   'assets/maxima-logo.svg',
+  'assets/maxima-icon.svg',
+  'assets/scale-ai-logo.svg',
   'assets/maxima-enterprise-social-preview.png',
   'assets/hellman-friedman-logo.png',
   'assets/permira-logo.png',

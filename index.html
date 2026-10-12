@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Agents for Enterprise Finance Operations | Maxima</title>
+<title>Maxima Enterprise</title>
 <meta name="description" content="Maxima builds deterministic AI agents for enterprise finance operations. See how they handle deductions, reconcile accounts, prepare entries, and keep people in control.">
 <link rel="canonical" href="https://maxtransform.ai/">
-<link rel="icon" href="assets/maxima-logo.svg">
+<link rel="icon" type="image/svg+xml" href="assets/maxima-icon.svg">
 <link rel="preload" href="fonts/martina-plantijn-light.woff2" as="font" type="font/woff2" crossorigin>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Maxima">
@@ -98,6 +98,8 @@ h2[id]{scroll-margin-top:88px}
 .nav-links a{color:var(--text-secondary)}
 .nav-links a:hover{color:var(--text-primary)}
 @media (max-width:960px){.nav-links{display:none}}
+@media (max-width:480px){.nav .wrap{gap:12px}.nav .lockup{gap:8px;min-width:0}.nav .lockup img{height:18px}.nav .lockup .prod{font-size:14px}.nav-right{gap:0;flex:none}.nav-right .btn{font-size:14px;padding:0 12px}}
+@media (max-width:360px){.nav .lockup .div,.nav .lockup .prod{display:none}}
 
 /* Hero */
 .hero{padding:88px 0 0;background:var(--bg-secondary)}
@@ -203,8 +205,8 @@ h2[id]{scroll-margin-top:88px}
 }
 
 /* Footer */
-.cases{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.case{background:var(--bg-primary);border:1px solid var(--border-primary);border-radius:var(--radius-xl);padding:36px 40px;display:flex;flex-direction:column}
+.cases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.case{min-width:0;background:var(--bg-primary);border:1px solid var(--border-primary);border-radius:var(--radius-xl);padding:36px 40px;display:flex;flex-direction:column}
 .case .co{font-size:14px;line-height:20px;color:var(--text-secondary)}
 .case h3{margin-top:6px;font-family:var(--font-display);font-weight:300;font-size:44px;line-height:48px;letter-spacing:-0.02em;color:var(--text-primary)}
 .case .ba{margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:28px;padding-top:24px;border-top:1px solid var(--border-secondary)}
@@ -218,9 +220,17 @@ h2[id]{scroll-margin-top:88px}
 .case .stats div{display:flex;flex-direction:column;gap:4px}
 .case .stats .num{font-family:var(--font-display);font-weight:300;font-size:48px;line-height:52px;letter-spacing:-0.02em;color:var(--text-primary);white-space:nowrap}
 .case .stats .metric{font-size:14px;line-height:20px;color:var(--text-secondary)}
+.case-quote{grid-column:1/-1;padding:36px 40px;border:1px solid var(--border-primary);border-radius:var(--radius-xl);background:var(--bg-primary)}
+.case-quote blockquote{max-width:44ch;font-family:var(--font-display);font-weight:300;font-size:30px;line-height:38px;letter-spacing:-0.01em;color:var(--text-primary);text-wrap:pretty}
+.case-quote figcaption{margin-top:20px;display:flex;align-items:center;gap:16px;color:var(--text-secondary);font-size:14px;line-height:20px}
+.case-quote figcaption img{width:80px;height:auto;flex:none}
+.case-quote figcaption span{padding-left:16px;border-left:1px solid var(--border-primary)}
+.case-quote figcaption strong{display:block;font-weight:500;color:var(--text-primary)}
 @media (max-width:1100px){.case .stats .num{font-size:38px;line-height:42px}}
-@media (max-width:900px){.cases{grid-template-columns:1fr}}
+@media (max-width:900px){.cases{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:760px){.case{padding:24px}.case h3{font-size:34px;line-height:38px}.case .ba{grid-template-columns:1fr;gap:16px}.case .stats .num{font-size:32px;line-height:36px}}
+@media (max-width:760px){.case-quote{padding:24px}.case-quote blockquote{font-size:24px;line-height:32px}}
+@media (max-width:360px){.case .stats{grid-template-columns:1fr;gap:16px}.case-quote figcaption{flex-wrap:wrap}.case-quote figcaption span{padding-left:0;border-left:0}}
 .footer{border-top:1px solid var(--border-secondary);padding:120px 0 40px;background:var(--bg-secondary)}
 .close{display:flex;flex-direction:column;align-items:flex-start;gap:32px}
 .close .h2{max-width:30ch}
@@ -245,14 +255,16 @@ h2[id]{scroll-margin-top:88px}
 .meta{margin-top:28px;padding-top:24px;border-top:1px solid var(--border-primary);display:flex;justify-content:space-between;align-items:center;gap:16px 24px;flex-wrap:wrap;font-size:14px;line-height:20px;color:var(--text-tertiary)}
 .meta .lockup img{height:18px}
 .meta .lockup .prod{font-size:15px}
+.footer-brand{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.footer-brand>a{color:var(--text-secondary);font-size:14px;line-height:20px}
+.footer-brand>a:hover{color:var(--text-primary)}
 .seals{display:flex;gap:12px;align-items:center;margin-left:auto}
-.legal{display:flex;align-items:center;gap:20px}
+.legal{margin-top:24px;padding-top:24px;border-top:1px solid var(--border-primary);display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;font-size:14px;line-height:20px;color:var(--text-tertiary)}
+.legal-main{display:flex;align-items:center;gap:12px 20px;flex-wrap:wrap}
+.legal-links{display:flex;align-items:center;gap:12px 20px;flex-wrap:wrap}
+.legal-links a{color:var(--text-secondary)}
+.legal-links a:hover{color:var(--text-primary)}
 .social{display:inline-flex;color:var(--text-secondary)}.social:hover{color:var(--text-primary)}
-.quote{margin:80px 0 0;max-width:880px}
-.quote blockquote{text-indent:-0.4em;font-family:var(--font-display);font-weight:300;font-size:34px;line-height:44px;letter-spacing:-0.02em;color:var(--text-primary);text-wrap:pretty}
-.quote figcaption{margin-top:24px;display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:22px;color:var(--text-secondary)}
-.quote .name{font-weight:500;color:var(--text-primary)}
-@media (max-width:760px){.quote{margin-top:56px}.quote blockquote{font-size:24px;line-height:32px}}
 .seal{width:64px;height:64px;border-radius:var(--radius-full);border:1px solid var(--neutral-900);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:var(--text-primary);background:var(--bg-primary)}
 .seal .org{font-size:8px;line-height:10px;font-weight:550;letter-spacing:.12em}
 .seal .soc{font-size:15px;line-height:16px;font-weight:550;letter-spacing:-0.01em}
@@ -287,7 +299,7 @@ h2[id]{scroll-margin-top:88px}
   <div class="wrap">
     <h1 class="h1">Deterministic agents for enterprise<br class="br-d"> finance operations.</h1>
     <div class="hero-row">
-      <p class="sub">Maxima's agents learn your process once, run it the same way every time, and improve with every call your team makes.</p>
+      <p class="sub">Maxima's agents learn your process once, run it the same way every time, and improve with every judgment call your team makes.</p>
       <div class="cta"><a class="btn btn-lg" href="mailto:inquiry@maximahq.com?subject=Maxima%3A%20finance%20operations%20conversation&amp;body=Hi%20Maxima%20team%2C%0A%0AI%27d%20like%20to%20talk%20about%20putting%20agents%20to%20work%20in%20our%20finance%20operations.%0A%0ACompany%3A%0AMy%20role%3A%0AEntities%20and%20main%20systems%20%28ERP%2C%20banks%2C%20billing%2C%20procurement%29%3A%0A%0AResearch%20question%3A%20which%20finance%20workflow%20takes%20your%20team%20the%20most%20hours%20each%20month%2C%20and%20why%20is%20it%20still%20manual%3F%0AAnswer%3A%0A%0ABest%20times%20to%20talk%3A%0A">Contact us</a></div>
     </div>
   </div>
@@ -546,10 +558,6 @@ h2[id]{scroll-margin-top:88px}
       <li><span class="label"><span class="co">Top 10 global medtech</span><span class="lane">(Order to Cash)</span></span><span class="work">Collect past-due hospital balances</span><span class="out"><span class="num">100%</span><span class="metric">of open AR worked on time</span></span></li>
       <li><span class="label"><span class="co">Top 10 global medtech</span><span class="lane">(Record to Report)</span></span><span class="work">Match intercompany balances across 60+ countries</span><span class="out"><span class="num">95%</span><span class="metric">matched automatically</span></span></li>
     </ul>
-    <figure class="quote">
-      <blockquote>&ldquo;Maxima helped us operationalize complex workflows like payroll journals and commissions amortization, with enterprise-grade accuracy and control.&rdquo;</blockquote>
-      <figcaption><span class="name">Kenny Tran</span><span>Head of Business Transformation</span></figcaption>
-    </figure>
   </div>
 </section>
 
@@ -785,6 +793,10 @@ h2[id]{scroll-margin-top:88px}
         </div>
         <div class="stats"><div><span class="num">$14M</span><span class="metric">mis-billed revenue recovered in year one</span></div><div><span class="num">100%</span><span class="metric">of usage invoices on a confirmed rate</span></div></div>
       </article>
+      <figure class="case-quote">
+        <blockquote>&ldquo;Maxima helped us operationalize complex workflows like payroll journals and commissions amortization, with enterprise-grade accuracy and control.&rdquo;</blockquote>
+        <figcaption><img src="assets/scale-ai-logo.svg" alt="Scale AI"><span><strong>Kenny Tran</strong>Head of Business Transformation, Scale AI</span></figcaption>
+      </figure>
       <article class="case">
         <span class="co">$15B+ HR and payroll platform</span>
         <h3>Money movement</h3>
@@ -801,7 +813,7 @@ h2[id]{scroll-margin-top:88px}
           <div class="b"><span class="tag">Before</span><p>The team recoded every card transaction by hand, in spreadsheets, for 11 entities.</p></div>
           <div class="a"><span class="tag">After</span><p>Agents code all spend and flag each policy break. The team reviews only the exceptions.</p></div>
         </div>
-        <div class="stats"><div><span class="num">15 hrs → 15 min</span><span class="metric">of spend coding a month</span></div><div><span class="num">2x</span><span class="metric">revenue on the same team</span></div></div>
+        <div class="stats"><div><span class="num">15 hrs → 15 min</span><span class="metric">of spend coding a month</span></div><div><span class="num">2x</span><span class="metric">growth handled without adding headcount</span></div></div>
       </article>
     </div>
   </div>
@@ -841,13 +853,20 @@ h2[id]{scroll-margin-top:88px}
       <span class="aud" role="img" aria-label="Audacious Ventures"><svg aria-hidden="true" focusable="false" viewBox="0 0 359 60" xmlns="http://www.w3.org/2000/svg" fill="none">  <path d="M0 58.4131H36.8128L44.8885 44.5692C46.2328 46.8765 50.2755 53.7985 52.9641 58.4131H68.1802L34.095 0L0 58.4131ZM28.4157 44.5692C26.1557 44.5692 24.753 42.1256 25.8927 40.1785L34.1047 26.1107L44.8787 44.5692C39.3943 44.5692 33.9001 44.5692 28.4157 44.5692Z" fill="currentColor"></path> <path d="M103.717 21.8564H92.0174V40.8212C92.0174 47.383 90.0496 50.4302 85.8316 50.4302C81.9253 50.4302 80.542 47.6458 80.542 39.7893V21.8564H68.8425V40.8212C68.8425 45.1633 68.8426 50.0894 70.9759 53.7792C73.2457 57.6539 77.2299 59.7957 82.1883 59.7957C87.965 59.7957 91.0432 57.1769 92.5629 55.1519V58.9001H103.805C103.688 55.7166 103.717 57.5468 103.717 21.8564Z" fill="currentColor"></path> <path d="M134.119 24.8256C132.152 22.8201 128.898 20.8243 123.755 20.8243C113.887 20.8243 107.253 28.6906 107.253 40.4122C107.253 52.1337 113.789 59.7956 123.891 59.7956C129.716 59.7956 133.038 57.1378 134.694 55.1712C134.675 56.3589 134.675 57.7122 134.675 58.9097H145.751V8.80095H134.051C134.051 20.7562 134.032 17.193 134.11 24.8256H134.119ZM127.193 50.5079C122.634 50.5079 119.566 46.3703 119.566 40.2077C119.566 34.0451 122.556 29.9757 127.193 29.9757C131.83 29.9757 134.753 33.9088 134.753 40.0033C134.753 46.4871 131.859 50.5079 127.193 50.5079Z" fill="currentColor"></path> <path d="M183.821 37.4626C183.821 25.7605 178.931 20.7564 167.455 20.7564C157.539 20.7564 151.265 25.5463 150.681 33.5781L150.642 34.1038H161.913L161.961 33.6657C162.293 30.5309 164.143 28.944 167.455 28.944C171.04 28.944 172.638 30.8619 172.735 35.3402C162.517 35.866 149.025 38.1538 149.025 48.3858C149.025 55.191 154.344 59.5914 162.575 59.5914C168.381 59.5914 171.362 57.6832 173.69 55.522C173.719 56.5929 173.836 57.6735 173.953 58.9002H184.717C183.617 54.6263 183.821 50.3524 183.821 37.4626ZM172.667 43.6446C172.667 49.0186 170.378 51.7446 165.868 51.7446C162.819 51.7446 160.919 50.3232 160.919 48.0451C160.919 45.1926 163.471 43.9951 171.42 43.0994L172.677 42.9631C172.677 43.1968 172.677 43.411 172.677 43.6544L172.667 43.6446Z" fill="currentColor"></path> <path d="M213.063 45.4551C212.313 48.6192 209.898 50.5079 206.595 50.5079C201.461 50.5079 198.627 46.896 198.627 40.344C198.627 33.792 201.578 30.112 206.322 30.112C209.586 30.112 211.807 31.8936 212.732 35.2523L212.83 35.6125H224.578L224.471 35.0381C222.785 25.9257 216.122 20.688 206.186 20.688C194.642 20.688 186.586 28.7977 186.586 40.4121C186.586 52.0266 194.438 60 206.118 60C215.869 60 222.756 54.6357 224.539 45.6596L224.656 45.0754H213.161L213.073 45.4551H213.063Z" fill="currentColor"></path> <path d="M239.171 8.80095H227.472V18.5657H239.171V8.80095Z" fill="currentColor"></path> <path d="M239.171 21.8564H227.472V58.9001H239.171V21.8564Z" fill="currentColor"></path> <path d="M262.375 20.6195C250.675 20.6195 242.502 28.7292 242.502 40.3437C242.502 51.9582 250.52 59.9997 262.443 59.9997C274.367 59.9997 282.384 52.1237 282.384 40.4118C282.384 28.7 274.347 20.6195 262.375 20.6195ZM262.375 50.5757C257.329 50.5757 254.543 46.9444 254.543 40.3437C254.543 33.743 257.446 30.0435 262.307 30.0435C267.168 30.0435 270.139 33.8209 270.139 40.4118C270.139 47.0028 267.382 50.5757 262.375 50.5757Z" fill="currentColor"></path> <path d="M320.142 21.8564H308.442V40.8212C308.442 47.383 306.475 50.4302 302.257 50.4302C298.35 50.4302 296.967 47.6458 296.967 39.7893V21.8564H285.268V40.8212C285.268 45.1633 285.268 50.0894 287.401 53.7792C289.671 57.6539 293.655 59.7957 298.613 59.7957C304.39 59.7957 307.468 57.1769 308.988 55.1519V58.9001H320.23C320.113 55.7166 320.142 57.5468 320.142 21.8564Z" fill="currentColor"></path> <path d="M345.645 36.0213C338.621 34.2105 336.244 33.7822 336.244 31.6793C336.244 30.0437 337.939 29.0702 340.774 29.0702C343.901 29.0702 345.898 30.365 346.706 32.9254L346.813 33.2662H358.153L358.104 32.7307C357.363 25.0299 351.178 20.61 341.124 20.61C331.071 20.61 324.408 25.1176 324.408 32.3608C324.408 39.1659 328.899 41.7166 336.663 43.8195C343.833 45.7471 346.96 46.2923 346.96 48.5023C346.96 50.1963 344.816 51.384 341.738 51.384C337.997 51.384 335.776 49.7387 335.134 46.487L335.056 46.0976H323.035L323.103 46.6428C324.223 55.6189 330.273 59.9902 341.602 59.9902C352.931 59.9902 359 55.4437 359 47.8208C359 40.7236 354.499 38.28 345.645 36.0116V36.0213Z" fill="currentColor"></path> </svg></span>
     </div>
     <div class="meta">
-      <span class="lockup"><img src="assets/maxima-logo.svg" alt="Maxima"><span class="div" aria-hidden="true"></span><span class="prod">Enterprise</span></span>
+      <div class="footer-brand">
+        <span class="lockup"><img src="assets/maxima-logo.svg" alt="Maxima"><span class="div" aria-hidden="true"></span><span class="prod">Enterprise</span></span>
+        <a href="https://www.maxima.ai/">Explore Maxima's close platform <span aria-hidden="true">↗</span></a>
+      </div>
       <div class="seals" aria-label="Compliance">
         <span class="seal" role="img" aria-label="AICPA SOC 1 Type II"><span class="org">AICPA</span><span class="soc">SOC 1</span><span class="type">TYPE II</span></span>
         <span class="seal" role="img" aria-label="AICPA SOC 2 Type II"><span class="org">AICPA</span><span class="soc">SOC 2</span><span class="type">TYPE II</span></span>
       </div>
-      <span class="legal"><a class="social" href="https://www.linkedin.com/company/maxima.ai" target="_blank" rel="noopener" aria-label="Maxima on LinkedIn"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a><span>© 2026 Maxima</span></span>
     </div>
+    <div class="legal"><div class="legal-main"><span>Hello from San Mateo, CA</span><a class="social" href="https://www.linkedin.com/company/maxima.ai" target="_blank" rel="noopener" aria-label="Maxima on LinkedIn"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a><nav class="legal-links" aria-label="Legal policies">
+          <a href="https://www.maxima.ai/legal/privacy-policy">Privacy Policy</a>
+          <a href="https://www.maxima.ai/legal/terms-of-service">Terms of Service</a>
+          <a href="https://www.maxima.ai/legal/cookie-policy">Cookie Policy</a>
+        </nav></div><span class="copyright">© 2026 Maxima (Indus AI Technologies, Inc.). All rights reserved.</span></div>
   </div>
 </footer>
 </body>
