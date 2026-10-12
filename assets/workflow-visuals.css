@@ -168,7 +168,12 @@
   .mx-steps-synced>li{min-height:300px;align-content:center}
   .mx-steps-synced>li>*{transition:opacity .1s linear}
   .mx-steps-synced>li:not(.mx-on)>*{opacity:.55}
-  .mx-steps-synced>li.mx-on>:first-child{color:var(--color-fg-brand-primary,#1967d4)}
+  /* Tally vertical line tabs: one neutral rail, the active step gets the fg-primary indicator */
+  .mx-steps-synced{box-shadow:inset 1px 0 0 var(--border-secondary,#e9e8e7)}
+  .mx-steps-synced>li{position:relative;padding-left:24px}
+  .mx-steps-synced>li::before{content:"";position:absolute;left:0;top:96px;bottom:96px;width:2px;background:transparent;transition:background-color .1s linear}
+  .mx-steps-synced>li.mx-on::before{background:var(--text-primary,#181716)}
+  .mx-steps-synced>li.mx-on>:first-child{color:var(--text-primary,#181716)}
 }
 @media (max-width:960px){
   .mx-flow.mx-pinned{position:relative;top:auto}
