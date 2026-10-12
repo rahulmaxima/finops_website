@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,follow">
+<title>One $100,000 short-pay: today, worked manually, vs. worked by Maxima's agents</title>
+<script>if (new URLSearchParams(location.search).get("embed")) { document.documentElement.classList.add("embed"); document.documentElement.dataset.theme = "light"; }</script>
+<style>
+@font-face{font-family:"Saans";src:url("../fonts/SaansVF.woff2") format("woff2");font-weight:300 700;font-style:normal;font-display:swap}
+@font-face{font-family:"Martina Plantijn";src:url("../fonts/martina-plantijn-light.woff2") format("woff2");font-weight:300;font-style:normal;font-display:swap}
+/* Tally UI tokens (light first, then dark) */
+:root{
+  --bg-page:#f8f7f6;--bg-primary:#ffffff;--bg-secondary:#f8f7f6;--bg-tertiary:#f2f1f0;--bg-quaternary:#e9e8e7;
+  --text-primary:#181716;--text-secondary:#64615c;--text-tertiary:#827f7a;
+  --border-primary:#e1dfdd;--border-secondary:#e9e8e7;
+  --brand:#1967d4;--brand-hover:#1451a6;--brand-soft:#f3f8ff;--brand-text:#1967d4;--focus-ring:#b2d2ff;
+  --disp:#8641c7;--disp-soft:#f1e5fb;--disp-text:#5a2789;
+  --good:#5ba31f;--good-soft:#edf9df;--good-text:#4f7b16;
+  --warn:#f9cc32;--warn-soft:#fff4d4;--warn-text:#a8871b;
+  --lost:#e15252;--lost-soft:#ffe6e6;--lost-text:#c83b3b;--lost-hatch:#f89898;
+  --acc:#c3beb8;
+  /* Tally Badge: fill = utility -200, text = darkest step, dot/icon = -500 */
+  --b-gray-bg:#f2f1f0;--b-gray-tx:#181716;--b-gray-dot:#c3beb8;
+  --b-brand-bg:#b7d0f6;--b-brand-tx:#061933;--b-brand-dot:#1967d4;
+  --b-success-bg:#cdeea4;--b-success-tx:#1f3009;--b-success-dot:#74c42e;
+  --b-warning-bg:#fee793;--b-warning-tx:#3a3118;--b-warning-dot:#f9cc32;
+  --b-error-bg:#ffc1c1;--b-error-tx:#49010d;--b-error-dot:#e15252;
+  --b-purple-bg:#e3cbf7;--b-purple-tx:#2a1340;--b-purple-dot:#8641c7;
+  --font-body:"Saans",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --font-display:"Martina Plantijn",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg-page:#181716;--bg-primary:#181716;--bg-secondary:#45433f;--bg-tertiary:#64615c;--bg-quaternary:#827f7a;
+  --text-primary:#fcfcfb;--text-secondary:#e9e8e7;--text-tertiary:#e1dfdd;
+  --border-primary:#827f7a;--border-secondary:#64615c;
+  --brand:#1967d4;--brand-hover:#1967d4;--brand-soft:#061933;--brand-text:#85b2ef;--focus-ring:#b7d0f6;
+  --disp:#ae76dc;--disp-soft:#2a1340;--disp-text:#d0aaf1;
+  --b-gray-bg:#827f7a;--b-gray-tx:#fcfcfb;--b-brand-bg:#10346a;--b-brand-tx:#f3f8ff;--b-success-bg:#345a14;--b-success-tx:#dff3c3;
+  --b-warning-bg:#a8871b;--b-warning-tx:#fef0b8;--b-error-bg:#851d29;--b-error-tx:#ffdede;--b-purple-bg:#461d6a;--b-purple-tx:#f1e5fb;
+  --good:#74c42e;--good-soft:#1f3009;--good-text:#b5e579;
+  --warn:#f9cc32;--warn-soft:#3a3118;--warn-text:#fddc6e;
+  --lost:#ef7070;--lost-soft:#49010d;--lost-text:#f89898;--lost-hatch:#851d29;--acc:#64615c;}}
+:root[data-theme="dark"]{
+  --bg-page:#181716;--bg-primary:#181716;--bg-secondary:#45433f;--bg-tertiary:#64615c;--bg-quaternary:#827f7a;
+  --text-primary:#fcfcfb;--text-secondary:#e9e8e7;--text-tertiary:#e1dfdd;
+  --border-primary:#827f7a;--border-secondary:#64615c;
+  --brand:#1967d4;--brand-hover:#1967d4;--brand-soft:#061933;--brand-text:#85b2ef;--focus-ring:#b7d0f6;
+  --disp:#ae76dc;--disp-soft:#2a1340;--disp-text:#d0aaf1;
+  --b-gray-bg:#827f7a;--b-gray-tx:#fcfcfb;--b-brand-bg:#10346a;--b-brand-tx:#f3f8ff;--b-success-bg:#345a14;--b-success-tx:#dff3c3;
+  --b-warning-bg:#a8871b;--b-warning-tx:#fef0b8;--b-error-bg:#851d29;--b-error-tx:#ffdede;--b-purple-bg:#461d6a;--b-purple-tx:#f1e5fb;
+  --good:#74c42e;--good-soft:#1f3009;--good-text:#b5e579;
+  --warn:#f9cc32;--warn-soft:#3a3118;--warn-text:#fddc6e;
+  --lost:#ef7070;--lost-soft:#49010d;--lost-text:#f89898;--lost-hatch:#851d29;--acc:#64615c;}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg-page);color:var(--text-primary);font-family:var(--font-body);
+  font-variant-numeric:tabular-nums;font-variant-ligatures:no-contextual;font-feature-settings:"calt" 0;text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased}
+.page{max-width:1200px;margin:24px auto;padding:0 16px}
+svg.i{width:12px;height:12px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Badges (Tally Badge: modern + pill-color) */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;line-height:16px;font-weight:450;padding:2px 6px;border-radius:6px;white-space:nowrap}
+.badge>span{padding:0 2px}
+.badge.modern{background:var(--bg-primary);color:var(--text-primary);box-shadow:inset 0 0 0 1px var(--border-primary)}
+.badge.pill{border-radius:9999px;padding:2px 8px 2px 6px}
+.badge.pill::before{content:"";width:6px;height:6px;border-radius:9999px;background:var(--dot,currentColor);flex:none}
+.badge.pill.noDot::before{display:none}
+.tone-gray{background:var(--b-gray-bg);color:var(--b-gray-tx);--dot:var(--b-gray-dot)}
+.tone-brand{background:var(--b-brand-bg);color:var(--b-brand-tx);--dot:var(--b-brand-dot)}
+.tone-success{background:var(--b-success-bg);color:var(--b-success-tx);--dot:var(--b-success-dot)}
+.tone-warning{background:var(--b-warning-bg);color:var(--b-warning-tx);--dot:var(--b-warning-dot)}
+.tone-error{background:var(--b-error-bg);color:var(--b-error-tx);--dot:var(--b-error-dot)}
+.tone-dispute{background:var(--b-purple-bg);color:var(--b-purple-tx);--dot:var(--b-purple-dot)}
+
+.ff{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:450;color:var(--text-secondary);background:var(--bg-primary);box-shadow:inset 0 0 0 1px var(--border-primary);border-radius:9999px;padding:4px 10px 4px 8px;opacity:0;transition:opacity .2s linear;white-space:nowrap}
+.ff.on{opacity:1}
+.ff svg{display:block;animation:pulse 1.4s linear infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.port .ff{position:absolute;right:0;top:12px}
+
+/* Controls (Tally Button / ButtonGroup) */
+.controls{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13px;flex-wrap:wrap}
+.controls button{font:inherit;font-weight:400;height:32px;padding:0 10px;border:0;background:var(--bg-primary);color:var(--text-secondary);
+  box-shadow:inset 0 0 0 1px var(--border-primary),0 1px 3px rgba(24,23,22,.05);border-radius:8px;cursor:pointer;transition:background .1s linear}
+.controls button:hover{background:var(--bg-secondary)}
+.controls button.primary{background:var(--brand);color:#fff;box-shadow:0 1px 3px rgba(24,23,22,.05)}
+.controls button.primary:hover{background:var(--brand-hover)}
+.controls .group{display:inline-flex;box-shadow:inset 0 0 0 1px var(--border-primary);border-radius:8px;overflow:hidden}
+.controls .group button{box-shadow:none;border-radius:0;border-right:1px solid var(--border-primary)}
+.controls .group button:last-child{border-right:0}
+.controls .group button[aria-pressed="true"]{background:var(--bg-secondary);color:var(--text-primary)}
+.controls button:focus-visible,.controls input:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.controls input[type=range]{flex:1;min-width:120px;accent-color:var(--brand)}
+.controls .t{color:var(--text-tertiary);min-width:44px;text-align:right}
+/* Frame */
+.viewport{position:relative;width:100%;overflow:hidden}
+.frame{position:absolute;left:0;top:0;transform-origin:0 0;background:var(--bg-page);display:grid}
+.frame.land{width:1280px;height:720px;padding:20px 24px 14px;grid-template-columns:1fr 1fr;grid-template-rows:1fr auto;column-gap:20px;row-gap:8px}
+.frame.port{width:480px;height:860px;padding:12px;grid-template-rows:1fr auto auto;row-gap:10px}
+.embed,.embed body,.embed .frame{background:transparent}
+.embed .page{margin:0;padding:0;max-width:none}
+.embed .controls{display:none}
+.fader{display:contents}
+.note{grid-column:1 / -1;font-size:12px;color:var(--text-tertiary);text-align:left;transition:opacity .3s linear}
+.port .note{font-size:11px;text-align:left}
+
+/* Panels */
+.slot{display:contents}
+.port .slot{display:grid;position:relative;min-height:0}
+.port .slot > .panel{grid-area:1 / 1;transition:opacity .35s linear}
+.panel{background:var(--bg-primary);box-shadow:inset 0 0 0 1px var(--border-secondary);border-radius:12px;display:grid;grid-template-rows:auto 7fr 3fr;min-height:0;overflow:hidden;transition:opacity .35s linear}
+.port .panel{grid-template-rows:auto 1fr}
+.panel.dim{opacity:.4}
+.port .panel.gone{opacity:0}
+.phead{box-shadow:inset 0 -1px 0 var(--border-secondary)}
+.land .phead{padding:16px 22px 14px}
+.port .phead{padding:12px 16px 10px}
+.ptitle{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:300;letter-spacing:-.02em;line-height:1}
+.land .ptitle{font-size:28px}
+.port .ptitle{font-size:22px}
+.wordmark{height:.72em;width:auto;display:block}
+.psub{display:block;font-size:13px;color:var(--text-tertiary);margin-top:7px;line-height:1.3}
+.port .psub{font-size:11.5px;margin-top:5px}
+
+/* Feed on a spine */
+.work{position:relative;min-height:0;overflow:hidden}
+.land .work{padding:14px 22px 0}
+.port .work{padding:10px 16px 0}
+.feed{display:flex;flex-direction:column;height:100%;overflow:hidden}
+.row{position:relative;padding-left:32px;max-height:0;opacity:0;overflow:hidden;flex:none;transition:max-height .4s linear,opacity .3s linear}
+.row.on{max-height:240px;opacity:1}
+.row.on.past{opacity:.45}
+.row::before{content:"";position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--border-primary)}
+.row.first::before{top:12px}
+.row .av{position:absolute;left:0;width:22px;height:22px;border-radius:9999px;display:flex;align-items:center;justify-content:center;background:var(--bg-tertiary);color:var(--text-secondary);box-shadow:0 0 0 3px var(--bg-primary)}
+.row .av svg{width:13px;height:13px}
+.row .av.h svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.row .av.a{background:var(--brand-soft);color:var(--brand)}
+.row .av.a svg{width:14px;height:14px;fill:currentColor}
+.row.now .av{box-shadow:0 0 0 3px var(--bg-primary),0 0 0 4px var(--border-primary)}
+.row.bad .av{background:var(--lost-soft);color:var(--lost-text)}
+.gap{height:26px;display:flex;align-items:center;font-size:12px;color:var(--text-tertiary)}
+.row.hasgap::before{background:repeating-linear-gradient(to bottom,var(--border-primary) 0 4px,transparent 4px 8px)}
+.rbody{display:grid;align-items:start;gap:14px;padding:4px 0 14px}
+.land .rbody.withart{grid-template-columns:220px 1fr}
+.port .rbody{gap:6px;padding:3px 0 10px}
+.ts{font-size:12px;color:var(--text-tertiary);display:block;line-height:1.2}
+.cap{display:block;font-weight:500;line-height:1.3;margin-top:2px}
+.land .cap{font-size:16px}
+.port .cap{font-size:14px}
+.row.bad .cap{color:var(--lost-text)}
+
+/* Evidence snippets: one big thing each */
+.art{background:var(--bg-secondary);box-shadow:inset 0 0 0 1px var(--border-secondary);border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.35;color:var(--text-secondary);min-width:0}
+.port .art{padding:7px 10px;font-size:11.5px}
+.art .big{display:block;font-size:20px;font-weight:500;color:var(--text-primary);letter-spacing:-.01em;line-height:1.2}
+.port .art .big{font-size:16px}
+.art .line{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.art mark{background:var(--disp-soft);color:var(--disp-text);padding:0 4px;border-radius:4px}
+.art .strike{text-decoration:line-through;color:var(--text-tertiary);font-weight:400}
+.split{display:flex;height:12px;border-radius:8px;overflow:hidden;margin:2px 0 8px;gap:2px}
+.split div{height:100%}
+.legend{display:flex;gap:4px 14px;font-size:12.5px;color:var(--text-tertiary);flex-wrap:wrap}
+.port .legend{font-size:11px}
+.legend b{color:var(--text-primary);font-weight:500}
+.dotc{display:inline-block;width:7px;height:7px;border-radius:9999px;margin-right:5px;vertical-align:1px}
+.idle{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text-tertiary);transition:opacity .3s linear}
+.idle.off{opacity:0}
+
+/* Metrics: three numbers */
+.mets{display:grid;grid-template-columns:1.25fr 1fr 1fr;box-shadow:inset 0 1px 0 var(--border-primary);background:var(--bg-secondary);min-height:0}
+.port .panel .mets{display:none}
+.met{display:flex;flex-direction:column;justify-content:center;gap:6px;min-width:0;padding:0 22px;border-right:1px solid var(--border-secondary)}
+.met:last-child{border-right:0}
+.met .k{font-size:13px;color:var(--text-tertiary);line-height:1.2}
+.val{position:relative;height:40px;display:flex;align-items:center}
+.val .v{font-family:var(--font-display);font-weight:300;letter-spacing:-.02em;font-size:38px;line-height:1;white-space:nowrap;opacity:0;transition:opacity .25s linear}
+.mxp .val .v{color:var(--good-text)}
+.val.on .v{opacity:1}
+.val .sk{position:absolute;left:0;top:50%;width:90px;height:12px;margin-top:-6px;border-radius:6px;background:var(--bg-quaternary)}
+.val.on .sk{display:none}
+
+/* Mobile: one comparison table under the single panel */
+.ctable{display:none}
+.port .ctable{display:grid;grid-template-columns:1.1fr 1fr 1fr;background:var(--bg-primary);box-shadow:inset 0 0 0 1px var(--border-secondary);border-radius:12px;padding:4px 16px}
+.ctable > div{padding:9px 0;border-bottom:1px solid var(--border-secondary);min-width:0}
+.ctable > div.l{border-bottom:0}
+.ctable .h{font-family:var(--font-display);font-weight:300;font-size:16px;letter-spacing:-.02em;color:var(--text-primary);display:flex;align-items:center;gap:5px}
+.ctable .h .wordmark{height:.72em}
+.ctable .k{font-size:12px;color:var(--text-tertiary);align-self:center}
+.ctable .val{height:28px}
+.ctable .val .v{font-size:24px}
+.ctable .val.m .v{color:var(--good-text)}
+.ctable .val .sk{width:56px;height:9px;margin-top:-4px}
+
+/* Pause control inside the frame (embed) */
+.pz{position:absolute;right:10px;bottom:10px;width:30px;height:30px;border-radius:9999px;border:0;background:var(--bg-primary);color:var(--text-secondary);box-shadow:inset 0 0 0 1px var(--border-primary),0 1px 3px rgba(24,23,22,.05);display:none;align-items:center;justify-content:center;cursor:pointer;z-index:5;opacity:.8}
+.embed .pz{display:flex}
+.pz:hover{opacity:1}
+.pz:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.pz svg{width:12px;height:12px;fill:currentColor}
+</style>
+</head>
+<body>
+<div class="page">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6m0-6 6 6"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></symbol>
+<symbol id="i-mark" viewBox="-0.4 -5 33.8 33.8"><path d="M 32.617 20.495 L 21.798 1.713 C 21.096 0.496 19.344 0.496 18.641 1.713 L 13.809 10.101 C 13.524 10.596 12.996 10.902 12.425 10.902 C 11.853 10.903 11.325 10.597 11.041 10.101 L 9.91 8.145 C 9.693 7.769 9.292 7.537 8.858 7.537 C 8.423 7.537 8.022 7.769 7.806 8.145 L 0.164 21.403 C -0.303 22.213 0.284 23.224 1.218 23.224 L 5.198 23.224 C 5.85 23.225 6.453 22.877 6.779 22.312 L 11.072 14.853 C 11.35 14.369 11.864 14.073 12.422 14.073 C 12.978 14.073 13.492 14.369 13.77 14.853 L 18.068 22.316 C 18.392 22.88 18.993 23.228 19.644 23.228 L 31.031 23.228 C 32.441 23.224 33.315 21.708 32.617 20.495 Z"/></symbol>
+</defs></svg>
+  <div class="viewport" id="viewport">
+    <div class="frame land" id="frame">
+      <div class="fader">
+        <div class="slot">
+          <section class="panel" id="pT" aria-label="Today, worked manually">
+            <div class="phead"><span class="ptitle">Today, worked manually</span></div>
+            <div class="work"><div class="feed" id="feedT"></div></div>
+            <div class="mets" id="tMets"></div>
+          </section>
+          <section class="panel mxp" id="pM" aria-label="Worked by Maxima's agents">
+            <div class="phead"><span class="ptitle">Worked by Maxima's agents</span></div>
+            <div class="work"><div class="feed" id="feedM"></div><div class="idle" id="mIdle">Up next</div></div>
+            <div class="mets" id="mMets"></div>
+          </section>
+        </div>
+        <div class="ctable" id="ctable"></div>
+      </div>
+      <button class="pz" id="pz" aria-label="Pause animation"><svg viewBox="0 0 12 12" id="pzIcon"><rect x="2" y="1" width="3" height="10" rx="1"/><rect x="7" y="1" width="3" height="10" rx="1"/></svg></button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="play" class="primary" aria-pressed="true">Pause</button>
+    <button id="restart">Restart</button>
+    <span class="group" role="group" aria-label="Speed"><button data-speed="0.5" aria-pressed="false">0.5x</button><button data-speed="1" aria-pressed="true">1x</button><button data-speed="2" aria-pressed="false">2x</button></span>
+    <button id="modeBtn" aria-pressed="false">Show mobile</button>
+    <input type="range" id="scrub" min="0" max="29.5" step="0.05" value="0" aria-label="Scrub timeline">
+    <span class="t" id="tlabel">0.0s</span>
+  </div>
+</div>
+<template id="wm"><svg class="wordmark" aria-hidden="true" viewBox="0 0 348 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M58.155 21.6887C63.613 21.6887 67.866 23.3543 70.914 26.6856C74.032 29.9459 75.591 34.5176 75.591 40.4004V75.5913C75.591 75.9457 75.45 76.2646 75.166 76.5481C74.954 76.7608 74.67 76.8671 74.316 76.8671H64.641C64.286 76.8671 63.967 76.7608 63.684 76.5481C63.471 76.2646 63.365 75.9457 63.365 75.5913V42.952C63.365 39.6917 62.479 37.1046 60.707 35.1909C59.006 33.2772 56.703 32.3204 53.797 32.3204C50.891 32.3204 48.516 33.2772 46.673 35.1909C44.83 37.1046 43.909 39.6562 43.909 42.8457V75.5913C43.909 75.9457 43.767 76.2646 43.484 76.5481C43.271 76.7608 42.988 76.8671 42.633 76.8671H32.958C32.604 76.8671 32.285 76.7608 32.002 76.5481C31.789 76.2646 31.683 75.9457 31.683 75.5913V42.952C31.683 39.6917 30.797 37.1046 29.025 35.1909C27.253 33.2772 24.914 32.3204 22.008 32.3204C19.314 32.3204 17.082 33.1 15.31 34.6593C13.609 36.2186 12.616 38.345 12.333 41.0383V75.5913C12.333 75.9457 12.191 76.2646 11.908 76.5481C11.695 76.7608 11.412 76.8671 11.057 76.8671H1.276C0.922001 76.8671 0.603 76.7608 0.319 76.5481C0.107 76.2646 0 75.9457 0 75.5913V23.815C0 23.4606 0.107 23.1771 0.319 22.9645C0.603 22.681 0.922001 22.5392 1.276 22.5392H11.057C11.412 22.5392 11.695 22.681 11.908 22.9645C12.191 23.1771 12.333 23.4606 12.333 23.815V27.3235C12.333 27.5361 12.404 27.6779 12.546 27.7487C12.687 27.8196 12.829 27.7487 12.971 27.5361C14.53 25.5515 16.444 24.0985 18.712 23.1771C21.051 22.1848 23.638 21.6887 26.473 21.6887C29.946 21.6887 32.994 22.3974 35.616 23.815C38.239 25.2326 40.259 27.288 41.676 29.9814C41.889 30.2649 42.137 30.2649 42.421 29.9814C43.98 27.1463 46.142 25.0554 48.906 23.7087C51.67 22.362 54.753 21.6887 58.155 21.6887ZM107.816 21.6887C112.282 21.6887 116.215 22.4683 119.617 24.0276C123.02 25.587 125.642 27.7487 127.485 30.513C129.328 33.2063 130.249 36.2895 130.249 39.7625V75.5913C130.249 75.9457 130.107 76.2646 129.824 76.5481C129.611 76.7608 129.328 76.8671 128.973 76.8671H119.192C118.838 76.8671 118.519 76.7608 118.235 76.5481C118.023 76.2646 117.916 75.9457 117.916 75.5913V72.1892C117.916 71.9765 117.845 71.8702 117.704 71.8702C117.562 71.7993 117.42 71.8348 117.278 71.9765C113.805 75.8039 108.773 77.7176 102.181 77.7176C96.866 77.7176 92.471 76.371 88.998 73.6776C85.596 70.9842 83.895 66.9796 83.895 61.6638C83.895 56.1353 85.809 51.8472 89.636 48.7995C93.534 45.6808 98.992 44.1215 106.009 44.1215H117.385C117.739 44.1215 117.916 43.9443 117.916 43.5899V41.0383C117.916 38.2741 117.101 36.1478 115.471 34.6593C113.841 33.1 111.396 32.3204 108.135 32.3204C105.442 32.3204 103.245 32.8165 101.544 33.8088C99.913 34.7302 98.886 36.0414 98.46 37.7425C98.248 38.593 97.752 38.9474 96.972 38.8057L86.659 37.5299C86.305 37.459 85.986 37.3527 85.702 37.2109C85.49 36.9983 85.419 36.7502 85.49 36.4667C86.057 32.1432 88.36 28.5993 92.4 25.835C96.511 23.0708 101.65 21.6887 107.816 21.6887ZM105.265 67.9365C108.738 67.9365 111.715 67.0151 114.195 65.1723C116.676 63.3294 117.916 60.9905 117.916 58.1553V53.1585C117.916 52.8041 117.739 52.6269 117.385 52.6269H108.454C104.698 52.6269 101.721 53.3356 99.524 54.7532C97.397 56.1708 96.334 58.1908 96.334 60.8133C96.334 63.0814 97.149 64.8533 98.779 66.1291C100.48 67.334 102.642 67.9365 105.265 67.9365ZM138.697 76.8671C138.201 76.8671 137.847 76.7253 137.634 76.4418C137.492 76.0874 137.563 75.6976 137.847 75.2723L155.07 49.9689C155.212 49.7563 155.212 49.5437 155.07 49.331L137.847 24.134C137.705 23.8504 137.634 23.6024 137.634 23.3897C137.634 22.8227 137.988 22.5392 138.697 22.5392H149.116C149.754 22.5392 150.25 22.8227 150.605 23.3897L161.662 39.7625C161.803 39.9043 161.945 39.9752 162.087 39.9752C162.229 39.9752 162.335 39.9043 162.406 39.7625L173.463 23.3897C173.817 22.8227 174.313 22.5392 174.951 22.5392H186.114C186.611 22.5392 186.93 22.7164 187.071 23.0708C187.284 23.3543 187.248 23.7087 186.965 24.134L169.742 49.331C169.671 49.5437 169.671 49.7563 169.742 49.9689L186.965 75.2723C187.107 75.5559 187.178 75.8039 187.178 76.0166C187.178 76.5836 186.823 76.8671 186.114 76.8671H175.695C175.057 76.8671 174.561 76.5836 174.207 76.0166L163.15 59.6438C163.079 59.502 162.973 59.4311 162.831 59.4311C162.689 59.4311 162.548 59.502 162.406 59.6438L151.349 76.0166C150.994 76.5836 150.498 76.8671 149.86 76.8671H138.697ZM201.278 15.097C199.081 15.097 197.273 14.3883 195.856 12.9707C194.438 11.5531 193.729 9.7457 193.729 7.5485C193.729 5.3513 194.438 3.5439 195.856 2.1264C197.273 0.7088 199.081 0 201.278 0C203.475 0 205.282 0.7088 206.7 2.1264C208.118 3.5439 208.826 5.3513 208.826 7.5485C208.826 9.7457 208.118 11.5531 206.7 12.9707C205.282 14.3883 203.475 15.097 201.278 15.097ZM196.175 76.8671C195.82 76.8671 195.501 76.7608 195.218 76.5481C195.005 76.2646 194.899 75.9457 194.899 75.5913V23.7087C194.899 23.3543 195.005 23.0708 195.218 22.8582C195.501 22.5746 195.82 22.4329 196.175 22.4329H205.956C206.31 22.4329 206.594 22.5746 206.806 22.8582C207.09 23.0708 207.232 23.3543 207.232 23.7087V75.5913C207.232 75.9457 207.09 76.2646 206.806 76.5481C206.594 76.7608 206.31 76.8671 205.956 76.8671H196.175ZM275.262 21.6887C280.719 21.6887 284.972 23.3543 288.02 26.6856C291.139 29.9459 292.698 34.5176 292.698 40.4004V75.5913C292.698 75.9457 292.556 76.2646 292.273 76.5481C292.06 76.7608 291.776 76.8671 291.422 76.8671H281.747C281.393 76.8671 281.074 76.7608 280.79 76.5481C280.578 76.2646 280.471 75.9457 280.471 75.5913V42.952C280.471 39.6917 279.585 37.1046 277.813 35.1909C276.112 33.2772 273.809 32.3204 270.903 32.3204C267.997 32.3204 265.623 33.2772 263.78 35.1909C261.937 37.1046 261.015 39.6562 261.015 42.8457V75.5913C261.015 75.9457 260.874 76.2646 260.59 76.5481C260.378 76.7608 260.094 76.8671 259.74 76.8671H250.065C249.71 76.8671 249.391 76.7608 249.108 76.5481C248.895 76.2646 248.789 75.9457 248.789 75.5913V42.952C248.789 39.6917 247.903 37.1046 246.131 35.1909C244.359 33.2772 242.02 32.3204 239.114 32.3204C236.421 32.3204 234.188 33.1 232.416 34.6593C230.715 36.2186 229.723 38.345 229.439 41.0383V75.5913C229.439 75.9457 229.298 76.2646 229.014 76.5481C228.801 76.7608 228.518 76.8671 228.164 76.8671H218.382C218.028 76.8671 217.709 76.7608 217.426 76.5481C217.213 76.2646 217.107 75.9457 217.107 75.5913V23.815C217.107 23.4606 217.213 23.1771 217.426 22.9645C217.709 22.681 218.028 22.5392 218.382 22.5392H228.164C228.518 22.5392 228.801 22.681 229.014 22.9645C229.298 23.1771 229.439 23.4606 229.439 23.815V27.3235C229.439 27.5361 229.51 27.6779 229.652 27.7487C229.794 27.8196 229.935 27.7487 230.077 27.5361C231.637 25.5515 233.55 24.0985 235.818 23.1771C238.157 22.1848 240.744 21.6887 243.579 21.6887C247.053 21.6887 250.1 22.3974 252.723 23.815C255.345 25.2326 257.365 27.288 258.783 29.9814C258.995 30.2649 259.243 30.2649 259.527 29.9814C261.086 27.1463 263.248 25.0554 266.012 23.7087C268.777 22.362 271.86 21.6887 275.262 21.6887ZM324.923 21.6887C329.388 21.6887 333.322 22.4683 336.724 24.0276C340.126 25.587 342.748 27.7487 344.591 30.513C346.434 33.2063 347.356 36.2895 347.356 39.7625V75.5913C347.356 75.9457 347.214 76.2646 346.93 76.5481C346.718 76.7608 346.434 76.8671 346.08 76.8671H336.299C335.944 76.8671 335.625 76.7608 335.342 76.5481C335.129 76.2646 335.023 75.9457 335.023 75.5913V72.1892C335.023 71.9765 334.952 71.8702 334.81 71.8702C334.668 71.7993 334.527 71.8348 334.385 71.9765C330.912 75.8039 325.88 77.7176 319.288 77.7176C313.972 77.7176 309.578 76.371 306.105 73.6776C302.702 70.9842 301.001 66.9796 301.001 61.6638C301.001 56.1353 302.915 51.8472 306.742 48.7995C310.641 45.6808 316.098 44.1215 323.115 44.1215H334.491C334.846 44.1215 335.023 43.9443 335.023 43.5899V41.0383C335.023 38.2741 334.208 36.1478 332.577 34.6593C330.947 33.1 328.502 32.3204 325.242 32.3204C322.548 32.3204 320.351 32.8165 318.65 33.8088C317.02 34.7302 315.992 36.0414 315.567 37.7425C315.354 38.593 314.858 38.9474 314.078 38.8057L303.766 37.5299C303.411 37.459 303.092 37.3527 302.809 37.2109C302.596 36.9983 302.525 36.7502 302.596 36.4667C303.163 32.1432 305.467 28.5993 309.507 25.835C313.618 23.0708 318.756 21.6887 324.923 21.6887ZM322.371 67.9365C325.844 67.9365 328.821 67.0151 331.302 65.1723C333.782 63.3294 335.023 60.9905 335.023 58.1553V53.1585C335.023 52.8041 334.846 52.6269 334.491 52.6269H325.561C321.804 52.6269 318.827 53.3356 316.63 54.7532C314.504 56.1708 313.44 58.1908 313.44 60.8133C313.44 63.0814 314.256 64.8533 315.886 66.1291C317.587 67.334 319.749 67.9365 322.371 67.9365Z" fill="currentColor"></path>
+</svg></template>
+<script>
+// All copy and numbers live here. Edit and reload.
+// Captions follow ASD-STE100: present tense, active voice, one action per sentence.
+const B = (tone, icon, text) => `<span class="badge pill noDot tone-${tone}"><svg class="i"><use href="#i-${icon}"/></svg><span>${text}</span></span>`;
+const CONFIG = {
+  today: [
+    {ts:"Day 1",  actor:"h", mins:20,  cap:"Adds the short-pay to a queue of 214."},
+    {ts:"Day 4",  actor:"h", mins:140, gap:"3 days later", cap:"Requests backup from the retailer and the carrier."},
+    {ts:"Day 7",  actor:"h", mins:70,  gap:"3 days later", cap:"Waits for the carrier receipt."},
+    {ts:"Day 9",  actor:"h", mins:40,  gap:"2 days later", cap:"Misses the dispute deadline.", bad:true},
+    {ts:"Day 10", actor:"h", mins:90,  gap:"1 day later",  cap:"Disputes $14,000. Writes off $46,000.", split:"today"}
+  ],
+  maxima: [
+    {ts:"8 s", secs:8, cap:"Reads 3 debit memos. Finds 17 claims.", art:`
+      <span class="big">17 claims</span>
+      <div class="line"><span>3 memos, $100,000.00 total</span>${B("success","check","Ties to the cent")}</div>`},
+    {ts:"41 s", secs:41, cap:"Finds the agreed cap. Disputes $14,000.", art:`
+      <div class="line"><span>Email from Dana Ruiz, buyer, Jul 14</span></div>
+      <span class="big">"We cap Fall markdowns at <mark>$36,000</mark>."</span>`},
+    {ts:"1 min 15 s", secs:75, cap:"Proves on-time delivery. Disputes $24,000.", art:`
+      <div class="line"><span>PO 7718, must arrive by</span></div>
+      <div class="line"><span class="big"><span class="strike">Sep 29</span> Oct 3</span>${B("success","check","Delivered Oct 2")}</div>`},
+    {ts:"1 min 52 s", secs:112, cap:"Proves the 3PL shipped short. Bills the 3PL $10,000.", art:`
+      <div class="line"><span>Ordered 410 cartons, 3PL packed 358</span></div>
+      <div class="line"><span class="big">52 cartons short</span>${B("success","check","Carrier receipt clean")}</div>`},
+    {ts:"2 min 40 s", secs:160, cap:"Decides all 17 claims.", split:"maxima"},
+    {ts:"3 min 36 s", secs:216, cap:"Prepares 3 dispute packets.", art:`
+      <div class="line"><span class="big">3 packets ready</span>${B("success","check","Evidence attached")}</div>`},
+    {ts:"15 min review", actor:"h", mins:15, cap:"Approves the packets. They file 8 days early.", art:`
+      <div class="line"><span class="big">3 packets filed</span>${B("dispute","check","8 days early")}</div>`}
+  ],
+  splits: {
+    maxima: [
+      {label:"Dispute", amt:44000, color:"var(--disp)"},
+      {label:"Recover from 3PL", amt:16000, color:"var(--good)"},
+      {label:"Valid", amt:40000, color:"var(--acc)"}],
+    today: [
+      {label:"Disputed", amt:14000, color:"var(--disp)"},
+      {label:"Written off", amt:46000, color:"var(--lost)"},
+      {label:"Valid", amt:40000, color:"var(--acc)"}]
+  },
+  costMaxima: "60% lower",   // cost vs. today's baseline
+  // 30-day model (not shown at the moment)
+  month: {
+    cases: 1000,              // deductions opened a month (shown in the footnote)
+    openValue: 2000000,       // their total value
+    recoverable: 0.10,        // share of that value that is invalid and recoverable
+    todayCoverage: 0.10,      // share of value the team works today
+    analystRate: 41.67,       // loaded cost per analyst hour ($250 for a 6-hour case)
+    agentCostPerCase: 12.50   // Maxima cost per case
+  }
+};
+
+// Timeline (seconds): Act 1 your team, Act 2 Maxima, then hold
+const STEP = 1.8;
+const A1_0 = 0.4, A1_END = A1_0 + 4 * STEP + 0.6;
+const S1 = A1_END + 0.2;
+const A2_0 = S1 + 3.1, A2_END = A2_0 + 6 * STEP + 0.6;
+const S2 = A2_END + 0.2;
+const FADE0 = 28.5, T = 29.5;
+
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(Math.max(x, a), b);
+const fmtUSD = n => "$" + Number(n).toLocaleString("en-US", {minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2});
+const fmtHM = m => { m = Math.round(m); const h = Math.floor(m / 60), r = m % 60; return h ? (r ? `${h} h ${r} min` : `${h} h`) : `${r} min`; };
+const fmtMS = s => { s = Math.round(s); const m = Math.floor(s / 60), r = s % 60; return m ? (r ? `${m} min ${r} s` : `${m} min`) : `${r} s`; };
+
+const M = CONFIG.month;
+const DASH = "\u2013";
+const METRICS = [
+  {k:"Human time"},
+  {k:"Agent time"},
+  {k:"Cost"}
+];
+
+function splitArt(key) {
+  const s = CONFIG.splits[key], total = s.reduce((a, x) => a + x.amt, 0);
+  return `<div class="split">${s.map(x => `<div style="width:${x.amt / total * 100}%;background:${x.color}"></div>`).join("")}</div>
+    <div class="legend">${s.map(x => `<span><i class="dotc" style="background:${x.color}"></i>${x.label} <b>${fmtUSD(x.amt)}</b></span>`).join("")}</div>`;
+}
+function makeRow(c, parent, i) {
+  const el = document.createElement("div");
+  const art = c.split ? splitArt(c.split) : c.art;
+  el.className = "row" + (i === 0 ? " first" : "") + (c.bad ? " bad" : "") + (c.gap ? " hasgap" : "");
+  el.innerHTML = `${c.gap ? `<div class="gap">${c.gap}</div>` : ""}
+    <span class="av ${c.actor === "h" ? "h" : "a"}" style="top:${c.gap ? 28 : 2}px" role="img" aria-label="${c.actor === "h" ? "Person" : "Maxima agent"}"><svg><use href="#i-${c.actor === "h" ? "user" : "mark"}"/></svg></span>
+    <div class="rbody${art ? " withart" : ""}"><div><span class="ts">${c.ts}</span><span class="cap">${c.cap}</span></div>${art ? `<div class="art">${art}</div>` : ""}</div>`;
+  parent.appendChild(el);
+  return el;
+}
+const tRows = CONFIG.today.map((c, i) => ({el: makeRow(c, $("feedT"), i), at: A1_0 + i * STEP, c}));
+const mRows = CONFIG.maxima.map((c, i) => ({el: makeRow(c, $("feedM"), i), at: A2_0 + i * STEP, c}));
+
+// Metric bands (desktop) and comparison table (mobile)
+const metHTML = side => METRICS.map((x, i) => `<div class="met"><span class="k">${x.k}</span><div class="val" data-side="${side}" data-i="${i}"><span class="sk"></span><span class="v"></span></div></div>`).join("");
+$("tMets").innerHTML = metHTML("t");
+$("mMets").innerHTML = metHTML("m");
+(function () {
+  const wm = document.getElementById("wm").innerHTML;
+  let h = `<div></div><div class="h">Manually</div><div class="h">Maxima's agents</div>`;
+  METRICS.forEach((x, i) => {
+    const l = i === METRICS.length - 1 ? " l" : "";
+    h += `<div class="k${l}">${x.k}</div><div class="${l.trim()}"><div class="val t" data-side="t" data-i="${i}"><span class="sk"></span><span class="v"></span></div></div>
+      <div class="${l.trim()}"><div class="val m" data-side="m" data-i="${i}"><span class="sk"></span><span class="v"></span></div></div>`;
+  });
+  $("ctable").innerHTML = h;
+})();
+const vals = [...document.querySelectorAll(".val[data-side]")];
+
+function showFeed(rows, t, keep, settled) {
+  const n = rows.filter(r => t >= r.at).length;
+  rows.forEach((r, i) => {
+    r.el.classList.toggle("on", t >= r.at && i >= n - keep);
+    r.el.classList.toggle("now", i === n - 1 && !settled);
+    r.el.classList.toggle("past", i < n - 1 && !settled);
+  });
+}
+// Running effort by actor, climbing to each row's total as it lands
+function effort(rows, t, actor) {
+  let total = 0;
+  for (const r of rows) {
+    if (t < r.at) break;
+    const isH = r.c.actor === "h";
+    if ((actor === "h") !== isH) continue;
+    const target = isH ? total + r.c.mins : r.c.secs;
+    total = total + (target - total) * clamp((t - r.at) / 0.8);
+  }
+  return total;
+}
+
+function render(t) {
+  const fade = t < 0.3 ? t / 0.3 : t > FADE0 ? 1 - clamp((t - FADE0) / (T - FADE0)) : 1;
+  $("frame").style.opacity = fade;
+  const port = $("frame").classList.contains("port");
+  const act2 = t >= A2_0 - 0.5;
+
+  $("pT").classList.toggle("dim", !port && act2 && t < S2);
+  $("pM").classList.toggle("dim", !port && !act2);
+  $("pT").classList.toggle("gone", port && act2);
+  $("pM").classList.toggle("gone", port && !act2);
+  $("mIdle").classList.toggle("off", act2);
+  showFeed(tRows, t, 4, t >= S1);
+  showFeed(mRows, t, 4, t >= S2);
+
+  const tHuman = effort(tRows, t, "h"), mAgent = effort(mRows, t, "a"), mHuman = effort(mRows, t, "h");
+  vals.forEach(v => {
+    const side = v.dataset.side, i = +v.dataset.i;
+    let on = false, text = "";
+    if (side === "t") {
+      if (i === 0) { on = t >= A1_0; text = fmtHM(tHuman); }
+      if (i === 1) { on = t >= A1_0; text = DASH; }
+      if (i === 2) { on = t >= S1; text = "Baseline"; }
+    } else {
+      if (i === 0) { on = t >= A2_0; text = mHuman > 0.5 ? fmtHM(mHuman) : DASH; }
+      if (i === 1) { on = t >= A2_0; text = fmtMS(mAgent); }
+      if (i === 2) { on = t >= S2; text = CONFIG.costMaxima; }
+    }
+    const el = v.querySelector(".v");
+    if (el.textContent !== text) el.textContent = text;
+    v.classList.toggle("on", on);
+  });
+
+  $("scrub").value = t;
+  $("tlabel").textContent = t.toFixed(1) + "s";
+}
+
+// Frame sizing: 16:9 side by side; on phones one panel at a time
+const params = new URLSearchParams(location.search);
+const EMBED = !!params.get("embed");
+let forced = params.get("mode");
+function layout() {
+  const vp = $("viewport"), fr = $("frame");
+  const par = vp.parentElement, cs = getComputedStyle(par);
+  const avail = par.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  const mode = forced || (avail < 640 ? "port" : "land");
+  fr.className = "frame " + mode;
+  const W = mode === "land" ? 1280 : 480, H = mode === "land" ? 720 : 860;
+  const width = mode === "port" ? Math.min(avail, 480) : avail;
+  const s = width / W;
+  fr.style.transform = `scale(${s})`;
+  vp.style.width = width + "px";
+  vp.style.height = H * s + "px";
+  $("modeBtn").setAttribute("aria-pressed", String(mode === "port"));
+  $("modeBtn").textContent = mode === "port" ? "Show desktop" : "Show mobile";
+}
+window.addEventListener("resize", () => { layout(); render(t); });
+$("modeBtn").onclick = () => { forced = $("frame").classList.contains("port") ? "land" : "port"; layout(); render(t); };
+
+// Playback
+let t = 0, playing = !EMBED, speed = 1, last = null, userPaused = false;
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+if (params.has("t")) { t = parseFloat(params.get("t")) || 0; playing = false; }
+if (reduced && !params.has("t")) { t = S2 + 2; playing = false; }
+function setPlaying(p) {
+  playing = p; last = null;
+  $("play").textContent = p ? "Pause" : "Play";
+  $("play").setAttribute("aria-pressed", String(p));
+  $("pz").setAttribute("aria-label", p ? "Pause animation" : "Play animation");
+  $("pzIcon").innerHTML = p ? '<rect x="2" y="1" width="3" height="10" rx="1"/><rect x="7" y="1" width="3" height="10" rx="1"/>' : '<path d="M3 1.5v9l7.5-4.5z"/>';
+}
+function loop(ts) {
+  if (playing) {
+    if (last !== null) { t += (ts - last) / 1000 * speed * 0.9; if (t > T) t = 0; }
+    last = ts;
+    render(t);
+  }
+  requestAnimationFrame(loop);
+}
+$("play").onclick = () => setPlaying(!playing);
+$("pz").onclick = () => { userPaused = playing; setPlaying(!playing); };
+$("restart").onclick = () => { t = 0; render(t); setPlaying(true); };
+document.querySelectorAll("[data-speed]").forEach(b => b.onclick = () => {
+  speed = parseFloat(b.dataset.speed);
+  document.querySelectorAll("[data-speed]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+});
+$("scrub").oninput = e => { t = parseFloat(e.target.value); render(t); setPlaying(false); };
+document.addEventListener("keydown", e => { if (e.code === "Space" && e.target.tagName !== "BUTTON") { e.preventDefault(); setPlaying(!playing); } });
+
+// In an embed, start from the top when the film scrolls into view and pause when it leaves
+if (EMBED && !reduced && !params.has("t") && "IntersectionObserver" in window) {
+  let seen = false;
+  new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting && e.intersectionRatio >= 0.5) {
+      if (!seen) { seen = true; t = 0; }
+      if (!userPaused) setPlaying(true);
+    } else if (!e.isIntersecting || e.intersectionRatio < 0.2) setPlaying(false);
+  }), {threshold: [0, 0.2, 0.5]}).observe($("frame"));
+} else if (EMBED && !reduced && !params.has("t")) setPlaying(true);
+
+layout();
+setPlaying(playing);
+render(t);
+requestAnimationFrame(loop);
+
+</script>
+</body>
+</html>
