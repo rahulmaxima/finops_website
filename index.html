@@ -108,7 +108,7 @@ h2[id]{scroll-margin-top:88px}
 .hero-row .cta{flex:none}
 .hero-proof{padding:var(--section) 0 0;background:var(--bg-secondary)}
 .hero-proof .proof{margin-top:0}
-.hero-demo{padding:88px 0 0;background:var(--bg-secondary)}
+.hero-demo{padding:0;background:var(--bg-secondary)}
 .hero-demo .h2{font-size:32px;line-height:38px}
 .hero-demo .sub{margin-top:12px;max-width:68ch}
 .hero-visual{display:block;width:100%;aspect-ratio:16/9;margin-top:32px;border:0;border-radius:var(--radius-xl);background:var(--bg-primary)}
@@ -495,19 +495,12 @@ h2[id]{scroll-margin-top:88px}
   </div>
 </section>
 
-<section class="hero-demo" aria-labelledby="hero-demo-title">
-  <div class="wrap">
-    <h2 class="h2" id="hero-demo-title">Watch an agent take on the work.</h2>
-    <p class="sub">A retailer deducts $100,000 across 3 debit memos and 17 claims. Watch a team and Maxima's agent handle the same case.</p>
-    <iframe class="hero-visual" src="res/short-pay-comparison.html?embed=1" title="A short-pay worked manually versus by Maxima's agents" loading="lazy"></iframe>
-  </div>
-</section>
-
 <!-- Glue -->
 <section class="section">
   <div class="wrap">
     <div class="head">
       <h2 class="h2">Your people are the glue between your systems.</h2>
+      <p class="sub">Most finance ops work is moving data manually.</p>
     </div>
     <figure class="panel">
       <div class="panel-part">
@@ -547,7 +540,8 @@ h2[id]{scroll-margin-top:88px}
 <section class="section sunken" id="workflows">
   <div class="wrap">
     <div class="head">
-      <h2 class="h2" id="workflows-title">The work between your systems.</h2>
+      <h2 class="h2" id="workflows-title">The work between your systems done by agents.</h2>
+      <p class="sub">Procure to pay, order to cash, record to report.</p>
     </div>
     <ul class="ledger">
       <li class="ledger-head" aria-hidden="true"><span>Company</span><span>Workflow</span><span class="impact">Impact with Maxima</span></li>
@@ -558,6 +552,14 @@ h2[id]{scroll-margin-top:88px}
       <li><span class="label"><span class="co">Top 10 global medtech</span><span class="lane">(Order to Cash)</span></span><span class="work">Collect past-due hospital balances</span><span class="out"><span class="num">100%</span><span class="metric">of open AR worked on time</span></span></li>
       <li><span class="label"><span class="co">Top 10 global medtech</span><span class="lane">(Record to Report)</span></span><span class="work">Match intercompany balances across 60+ countries</span><span class="out"><span class="num">95%</span><span class="metric">matched automatically</span></span></li>
     </ul>
+  </div>
+</section>
+
+<section class="hero-demo" aria-labelledby="hero-demo-title">
+  <div class="wrap">
+    <h2 class="h2" id="hero-demo-title">See Maxima's agent do the work.</h2>
+    <p class="sub">One retailer deduction, worked by Maxima's agents and the team.</p>
+    <iframe class="hero-visual" src="res/short-pay-comparison.html?embed=1" title="A short-pay worked manually versus by Maxima's agents" loading="lazy"></iframe>
   </div>
 </section>
 
@@ -693,7 +695,7 @@ h2[id]{scroll-margin-top:88px}
   <div class="wrap">
     <div class="head">
       <h2 class="h2">Agent prepared. Human approved.</h2>
-      <p class="sub">Finance discipline in every run, and controls a Big 4 auditor can test.</p>
+      <p class="sub">Controls a Big 4 auditor can test.</p>
     </div>
     <figure class="mx-viz mx-signoff" id="mx-signoff" data-mx-viz="signoff" role="img" aria-label="Vendor payment batch 2214, 312 invoices, $4.8M. Prepared by the Maxima agent at 9:14 AM. Approved by J. Chen, AP Manager, at 9:31 AM. Evidence: bank details unchanged, no duplicates, 3-way matched, rule v13, source file.">
       <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -752,27 +754,12 @@ h2[id]{scroll-margin-top:88px}
   </div>
 </section>
 
-<!-- Engagement -->
-<section class="section" id="engagement">
-  <div class="wrap">
-    <div class="head">
-      <h2 class="h2">Consultants, accountants and engineers. One team.</h2>
-      <p class="sub">First outcome in four weeks. No IT project.</p>
-    </div>
-    <ol class="timeline">
-      <li><span class="index">01 · Diagnose</span><span class="title">Find the hours.</span><span class="line">We map one workflow and size its hours, errors and cost.</span></li>
-      <li><span class="index">02 · Build</span><span class="title">Build on your data.</span><span class="line">Forward-deployed engineers build it on your files.</span></li>
-      <li><span class="index">03 · Run</span><span class="title">Run it for you.</span><span class="line">New accounts and formats are on us.</span></li>
-      <li><span class="index">04 · Expand</span><span class="title">Take the next workflow.</span><span class="line">Once the first one hits its number.</span></li>
-    </ol>
-  </div>
-</section>
-
 <!-- Case studies -->
 <section class="section sunken" id="cases">
   <div class="wrap">
     <div class="head">
       <h2 class="h2" id="cases-title">Running in production today.</h2>
+      <p class="sub">Finance teams at the world’s fastest-growing companies.</p>
     </div>
     <div class="cases">
       <article class="case">
@@ -816,6 +803,22 @@ h2[id]{scroll-margin-top:88px}
         <div class="stats"><div><span class="num">15 hrs → 15 min</span><span class="metric">of spend coding a month</span></div><div><span class="num">2x</span><span class="metric">growth handled without adding headcount</span></div></div>
       </article>
     </div>
+  </div>
+</section>
+
+<!-- Engagement -->
+<section class="section" id="engagement">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="h2">Consultants, accountants and engineers. One team.</h2>
+      <p class="sub">First outcome in four weeks. No IT project.</p>
+    </div>
+    <ol class="timeline">
+      <li><span class="index">01 · Diagnose</span><span class="title">Find the hours.</span><span class="line">We map one workflow and size its hours, errors and cost.</span></li>
+      <li><span class="index">02 · Build</span><span class="title">Build on your data.</span><span class="line">Forward-deployed engineers build it on your files.</span></li>
+      <li><span class="index">03 · Run</span><span class="title">Run it for you.</span><span class="line">New accounts and formats are on us.</span></li>
+      <li><span class="index">04 · Expand</span><span class="title">Take the next workflow.</span><span class="line">Once the first one hits its number.</span></li>
+    </ol>
   </div>
 </section>
 
